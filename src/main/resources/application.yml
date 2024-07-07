@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: default
+  datasource:
+    url: jdbc:mysql://localhost:3305/customerdb?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+  data:
+    mysql:
+      uri: "mysql://localhost:3305/"
+      database: customerdb
+      password: root
+      username: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+database:
+  include:
+    list: test
+collection:
+  include:
+    list: "test.products"
