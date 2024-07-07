@@ -14,7 +14,6 @@ docker ps
 * jdbc:mysql://localhost:3306/targetdb?allowPublicKeyRetrieval=true&useSSL=false
 
 ### source db Create schema and DML start
-#-----
 drop table Product;
 CREATE TABLE Product (
 id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -24,9 +23,11 @@ description TEXT
 );
 select * from sourcedb.Product p;
 INSERT INTO Product (name, price, description) VALUES ('Sample Product', 99.99, 'This is a sample product description.');
+delete from sourcedb.Product p where id = 4;
+commit;
 ### source db Create schema and DML END
 
-### destination db Create schema start
+### target db Create schema start
 drop table product;
 CREATE TABLE product (
 id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -35,13 +36,14 @@ price FLOAT,
 description TEXT
 );
 select * from targetdb.product;
-### destination db Create schema and DML end
+### target db Create schema and DML end
 
 ### Output 
 * start mysql instances
 * start the application 
 * Use above insert statement to create records at source db
 * On console you will find one output "Got one event to handle" for every insert statement !
-* Check in the destination db a new recort will be inserted 
+* Check in the destination db a new record will be inserted 
+* Once you delete a recordat source db, same record will be deleted at target db as well.
 
 

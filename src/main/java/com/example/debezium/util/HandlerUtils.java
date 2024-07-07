@@ -3,6 +3,7 @@ package com.example.debezium.util;
 import com.example.debezium.entity.Product;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.debezium.data.Envelope;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.json.JsonConverter;
 
@@ -22,8 +23,12 @@ public class HandlerUtils {
      * @throws IOException If there is an error during deserialization.
      */
     public static Product getData(Struct sourceRecordValue) throws IOException {
-        Struct source = (Struct) sourceRecordValue.get("after");
-
+        Struct source = null;
+        if (Envelope.Operation.DELETE.code().equals(sourceRecordValue.getString("op"))) {
+            source = (Struct) sourceRecordValue.get("before");
+        } else {
+            source = (Struct) sourceRecordValue.get("after");
+        }
         // Configure the JsonConverter
         JsonConverter jsonConverter = new JsonConverter();
         Map<String, Object> configs = new HashMap<>();
@@ -36,16 +41,10 @@ public class HandlerUtils {
         // Convert JSON bytes to String
         String jsonString = new String(jsonBytes);
 
-
-
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,true);
         return mapper.readValue(jsonString, Product.class);
-
-        /*String input  = "{\"id\": \"1\",\"name\": \"Sample Product\",\"price\": \"19.99\",\"description\": \"This is a sample product description.\"}";
-        mapper.readValue(input, Product.class);
-        return mapper.readValue(input, Product.class);*/
     }
 
     /**
