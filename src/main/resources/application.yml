@@ -2,21 +2,25 @@ spring:
   profiles:
     active: default
   datasource:
-    url: jdbc:mysql://localhost:3305/customerdb?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/targetdb?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
-  data:
-    mysql:
-      uri: "mysql://localhost:3305/"
-      database: customerdb
-      password: root
-      username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #  data:
+#    mysql:
+#      uri: "mysql://localhost:3306/"
+#      database: customerdb
+#      password: root
+#      username: root
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
     hibernate:
-      ddl-auto: create-drop
-database:
-  include:
-    list: test
-collection:
-  include:
-    list: "test.products"
+#      ddl-auto: create-drop
+      format_sql: true
+#database:
+#  include:
+#    list: test
+#collection:
+#  include:
+#    list: "test.products"

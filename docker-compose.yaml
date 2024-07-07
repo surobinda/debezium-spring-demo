@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MYSQL_DATABASE: customerdb
+      MYSQL_DATABASE: sourcedb
 
   # Install Target MySQL DB and setup the Customer database
   mysql-2:
@@ -22,4 +22,4 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MYSQL_DATABASE: customerdb
+      MYSQL_DATABASE: targetdb

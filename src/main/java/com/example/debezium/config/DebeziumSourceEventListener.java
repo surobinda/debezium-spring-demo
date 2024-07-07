@@ -52,20 +52,19 @@ public class DebeziumSourceEventListener {
     private void handleChangeEvent(RecordChangeEvent<SourceRecord> sourceRecordRecordChangeEvent) {
         System.out.println("Got one event to handle");
 
-        /*SourceRecord sourceRecord = sourceRecordRecordChangeEvent.record();
+        SourceRecord sourceRecord = sourceRecordRecordChangeEvent.record();
         Struct sourceRecordKey = (Struct) sourceRecord.key();
         Struct sourceRecordValue = (Struct) sourceRecord.value();
         if (sourceRecordValue != null) {
             try {
                 String operation = HandlerUtils.getOperation(sourceRecordValue);
-                String documentId = HandlerUtils.getDocumentId(sourceRecordKey);
                 Product product = HandlerUtils.getData(sourceRecordValue);
-                productService.handleEvent(operation, documentId, product);
-                log.info("DocumentId : {} , Operation : {}", documentId, operation);
+                productService.handleEvent(operation, product);
+                log.info("Operation : {}", operation);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }*/
+        }
     }
 
     @PostConstruct

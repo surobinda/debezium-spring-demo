@@ -15,18 +15,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void handleEvent(String operation, String documentId, Product product) {
+    public void handleEvent(String operation, Product product) {
 
         // Check if the operation is either CREATE or UPDATE
         if (Envelope.Operation.CREATE.code().equals(operation) || Envelope.Operation.UPDATE.code().equals(operation)) {
-            // Set the MongoDB document ID to the product
-            product.setMysqlId(documentId);
             // Save the updated product information to the database
             productRepository.save(product);
             // If the operation is DELETE
         } else if (Envelope.Operation.DELETE.code().equals(operation)) {
             // Remove the product from the database using the MongoDB document ID
-            productRepository.removeProductByMysqlId(documentId);
+            //productRepository.removeProductId(product.getId());
+            productRepository.deleteById(product.getId());
         }
     }
 }
